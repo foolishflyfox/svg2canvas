@@ -11,19 +11,12 @@
  *
  */
 
-(function (global, factory) {
-  typeof exports === "object" && typeof module !== "undefined"
-    ? (module.exports = factory(require("stackblur-canvas")))
-    : typeof define === "function" && define.amd
-    ? define(["rgbcolor", "stackblur-canvas"], factory)
-    : (global.canvg = factory(global.RGBColor, global.StackBlur));
-})(this, function (rgbcolor, stackblurCanvas) {
-  "use strict";
+console.log("@@", typeof define === "function" && define.amd);
 
-  stackblurCanvas =
-    stackblurCanvas && stackblurCanvas.hasOwnProperty("default")
-      ? stackblurCanvas["default"]
-      : stackblurCanvas;
+(function (global, factory) {
+  global.canvg = factory();
+})(this, function () {
+  "use strict";
 
   function createCommonjsModule(fn, module) {
     return (
@@ -4768,34 +4761,6 @@
 
         this.blurRadius = Math.floor(this.attribute("stdDeviation").numValue());
         this.extraFilterDistance = this.blurRadius;
-
-        this.apply = function (ctx, x, y, width, height) {
-          if (
-            !stackblurCanvas ||
-            typeof stackblurCanvas.canvasRGBA === "undefined"
-          ) {
-            svg.log("ERROR: StackBlur.js must be included for blur to work");
-            return;
-          }
-
-          // StackBlur requires canvas be on document
-          ctx.canvas.id = svg.UniqueId();
-          {
-            ctx.canvas.style.display = "none";
-            doc.body.appendChild(ctx.canvas);
-          }
-          stackblurCanvas.canvasRGBA(
-            ctx.canvas,
-            x,
-            y,
-            width,
-            height,
-            this.blurRadius
-          );
-          {
-            doc.body.removeChild(ctx.canvas);
-          }
-        };
       };
       svg.Element.feGaussianBlur.prototype = new svg.Element.ElementBase();
 
