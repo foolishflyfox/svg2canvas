@@ -11,11 +11,9 @@
  *
  */
 
-console.log("@@", typeof define === "function" && define.amd);
+// console.log("@@", typeof define === "function" && define.amd);
 
-(function (global, factory) {
-  global.canvg = factory();
-})(this, function () {
+function factory() {
   "use strict";
 
   function createCommonjsModule(fn, module) {
@@ -5410,4 +5408,6 @@ console.log("@@", typeof define === "function" && define.amd);
   });
 
   return canvg_1;
-});
+}
+// 定义全局变量导出供 index.html 使用
+var canvg = factory();
